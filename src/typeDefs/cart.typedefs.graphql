@@ -1,0 +1,27 @@
+type Query {
+  carts: [Cart]
+  createCart: Cart
+  getCart: Cart
+}
+
+type Mutation {
+  addToCart(qty: Int, name: String, price: Int, image: String): Cart
+  removeItem(id: String): Cart
+  updateItem(id: String, qty: Int, type: String): Cart
+}
+
+# Schema Types
+
+type CartItem {
+  _id: String
+  qty: Int
+  name: String
+  price: Int
+  image: String
+}
+
+type Cart {
+  id: String
+  userId: String
+  items: [CartItem]
+}

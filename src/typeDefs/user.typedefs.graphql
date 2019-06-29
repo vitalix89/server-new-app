@@ -1,0 +1,20 @@
+type Query {
+  users: [User]
+  createUser: User
+  getUser: User
+}
+
+type Mutation {
+  addUser(email: String, password: String): User
+  logIn(email: String, password: String): User
+  logOut: User
+}
+
+# Schema Types
+
+type User {
+  id: String
+  email: String
+  password: String
+  jwt: String
+}

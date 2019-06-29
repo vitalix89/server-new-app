@@ -1,0 +1,62 @@
+{
+  "name": "yoga-mongodb",
+  "version": "0.0.0",
+  "description": "GraphQL-YOGA Example with mongodb",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "npm run test",
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "watch": "nodemon --ignore './sessions/' --exec ts-node src/index.ts",
+    "build": "NODE_ENV=PRODUCTION babel src -d dist --copy-files",
+    "serve": "NODE_ENV=production node dist/index.js"
+  },
+  "keywords": [
+    "gql",
+    "yoga",
+    "mongodb"
+  ],
+  "author": "Daksh Miglani <hello@dak.sh>",
+  "license": "MIT",
+  "dependencies": {
+    "@types/cors": "^2.8.5",
+    "@types/express-graphql": "^0.8.0",
+    "@types/express-session": "^1.15.12",
+    "@types/mongoose": "^5.5.1",
+    "@types/ms": "^0.7.30",
+    "@types/passport": "^1.0.0",
+    "@types/passport-anonymous": "^1.0.3",
+    "@types/paypal-rest-sdk": "^1.7.4",
+    "@types/session-file-store": "^1.2.0",
+    "@types/uuid": "^3.4.4",
+    "bcryptjs": "^2.4.3",
+    "client-sessions": "^0.8.0",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express-graphql": "^0.8.0",
+    "express-session": "^1.16.2",
+    "graphql-yoga": "^1.14.4",
+    "jsonwebtoken": "^8.5.1",
+    "merge-graphql-schemas": "^1.5.8",
+    "mongoose": "^5.1.2",
+    "ms": "^2.1.2",
+    "passport": "^0.4.0",
+    "passport-anonym-uuid": "^1.0.3",
+    "passport-anonymous": "^1.0.1",
+    "passport-custom": "^1.0.5",
+    "passport-local": "^1.0.0",
+    "paypal-rest-sdk": "^1.8.1",
+    "session-file-store": "^1.3.0",
+    "ts-mongoose": "^0.0.14",
+    "ts-node": "^8.1.0",
+    "typescript": "^3.4.5",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/cookie-parser": "^1.4.1",
+    "babel-cli": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "nodemon": "^1.17.5"
+  }
+}

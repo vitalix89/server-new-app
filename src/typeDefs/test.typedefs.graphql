@@ -1,0 +1,10 @@
+type Query {
+  open: User
+  secured: String
+  me: Me
+}
+type Me {
+  name: String
+  surname: String
+  age: Int
+}
