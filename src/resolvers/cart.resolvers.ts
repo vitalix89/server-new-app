@@ -4,7 +4,6 @@ export default {
   Query: {
     createCart: async (parent, args, { models, req }) => {
       const clientSessionId = req.cookies.session
-      console.log('client id.....', clientSessionId)
 
       const cartId = uuid.v4()
       const newCart = new models.CartModel({ id: clientSessionId, items: [] })
@@ -26,10 +25,6 @@ export default {
 
       const sessionID = req.sessionID
 
-      console.log('CLIENT__ID____GET_CART.......', sessionID)
-
-      console.log('USER???....req-__user??', req.user)
-
       const Cart = await models.CartModel.findOne({ id: sessionID })
 
       if (Cart) {
@@ -47,8 +42,6 @@ export default {
       const clientSessionId = req.cookies.session
 
       const sessionID = req.sessionID
-
-      console.log('CLIENT__ID.......', req.sessionID)
 
       // const testId = 's:3euqweqweqwe'
 
@@ -81,8 +74,6 @@ export default {
         { $pull: { items: { _id: id } } },
       ).exec()
 
-      console.log('REMOVE ITEM???......', id, Cart)
-
       // console.log('wtf...........', Cart)
 
       return Cart
@@ -102,8 +93,6 @@ export default {
           update,
         ).exec()
 
-        console.log('REMOVE ITEM???......', id, Cart)
-
         // console.log('wtf...........', Cart)
 
         return Cart
@@ -112,8 +101,6 @@ export default {
           { id: sessionID },
           { $pull: { items: { _id: id } } },
         ).exec()
-
-        console.log('REMOVE ITEM???......', id, Cart)
 
         // console.log('wtf...........', Cart)
 

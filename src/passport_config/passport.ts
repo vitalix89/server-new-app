@@ -43,8 +43,6 @@ export const strategy = new Strategy(
 
     const user: any = await UserModel.findOne({ email })
 
-    console.log('USErrrrrr????', user)
-
     if (!user) {
       return done(undefined, false, { message: 'Email doesnt exists' })
     }
@@ -73,8 +71,6 @@ export async function signup({ email, password, req }: SignupOptions) {
   // const emailInUse = 'db.get(email)'
 
   const emailInUse: any = await UserModel.findOne({ email })
-
-  console.log('found email?.........', emailInUse)
 
   if (emailInUse !== null) {
     // throw new Error('Email in use')
@@ -137,8 +133,6 @@ export function anonymous({ req }) {
       if (!user) {
         reject('Invalid credentials.')
       }
-
-      console.log('AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA', user)
 
       // req.login(user, () => {
       //   resolve(user)

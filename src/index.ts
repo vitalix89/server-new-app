@@ -1,8 +1,9 @@
 import BodyParser from 'body-parser'
 import cookieParser from 'cookie-parser'
 import cors from 'cors'
+//import JWT from 'express-jwt'
 import session from 'express-session'
-import { GraphQLServer } from 'graphql-yoga'
+import { GraphQLServer, PubSub } from 'graphql-yoga'
 import jwt from 'jsonwebtoken'
 import ms from 'ms'
 import passport from 'passport'
@@ -22,7 +23,6 @@ import resolvers from './resolvers'
 import typeDefs from './typeDefs'
 
 const db = startDB()
-// console.log(paypal)
 
 const whitelist = [
   'http://localhost:8000',
@@ -32,6 +32,10 @@ const whitelist = [
   'http://192.168.1.24:19000',
   'http://localhost:19006',
   'http://192.168.95.2:19006',
+  'http://192.168.95.2:19006',
+  'http://192.168.43.138:4000',
+  'http://192.168.43.1:4000',
+  'http://192.168.95.2:4000/',
 ]
 const corsOptions = {
   origin: function(origin, callback) {
@@ -53,9 +57,11 @@ const isLoggedIn = async (resolve, parent, args, ctx, info) => {
   // Include your agent code as Authorization: <token> header.
   // const permit = ctx.request.get('Authorization')
 
-  const permit = ctx.req.headers
+  //const permit = ctx.req.headers
 
-  console.log('headerszzzzzzzzzzzzzzzzzzzzz', permit)
+  // console.log('ISLOGGEDIN FUNC.................', ctx.req.headers.authorization)
+
+  // console.log('headerszzzzzzzzzzzzzzzzzzzzz', permit)
 
   // if (!permit) {
   //   throw new Error(`Not authorised!`)
@@ -70,8 +76,6 @@ const getUser = async (authorization, secret, models) => {
   if (authorization && authorization.length > bearerLength) {
     const token = authorization.slice(bearerLength)
 
-    console.log('BBBBBBBBBBBBBBBBBBBB////////////////', token)
-
     const { ok, result } = await new Promise(resolve =>
       jwt.verify(token, secret, (err, result) => {
         if (err) {
@@ -81,8 +85,6 @@ const getUser = async (authorization, secret, models) => {
         }
       }),
     )
-
-    console.log('CCCCCCCCCCCCCCCCCCCCC////////////////', result)
 
     if (ok) {
       const user = await models.UserModel.findOne({ _id: result })
@@ -95,6 +97,8 @@ const getUser = async (authorization, secret, models) => {
   return null
 }
 
+const pubsub = new PubSub()
+
 const Server = new GraphQLServer({
   typeDefs,
   resolvers,
@@ -103,12 +107,24 @@ const Server = new GraphQLServer({
     // console.log('CONTEXT>>>>>>>>REQUEST............', request.user)
 
     const user = await getUser(
-      request.headers['authorization'],
+      request ? request.headers['authorization'] : '',
       'secret-code',
       models,
     )
 
-    console.log('AAAAAAAAAAAAAAAAAAAAAAAAAA.................', user)
+    console.log(
+      'USERRRRRRRRRRRRRRRRRRR...................',
+      user,
+      request.headers['authorization'],
+    )
+    // let user
+    // if (request && request.headers) {
+    //   user = await getUser(
+    //     request.headers['authorization'],
+    //     'secret-code',
+    //     models,
+    //   )
+    // }
 
     return {
       models,
@@ -119,6 +135,7 @@ const Server = new GraphQLServer({
       anonymous,
       req: request,
       res: response,
+      pubsub,
     }
   },
   middlewares: [isLoggedIn],
@@ -141,6 +158,8 @@ Server.express.use(
   }),
 )
 
+//Server.express.use(JWT({ secret: 'secret-code' }).unless({ path: ['/'] }))
+
 Server.express.use(passport.initialize())
 Server.express.use(passport.session())
 
@@ -156,6 +175,9 @@ Server.express.use(
       'http://192.168.1.24:19000',
       'http://localhost:19006',
       'http://192.168.95.2:19006',
+      'http://192.168.43.138:4000',
+      'http://192.168.43.1:4000',
+      'http://192.168.95.2:4000/',
     ],
   }),
 )
@@ -171,6 +193,9 @@ const opts = {
       'http://192.168.1.24:19000',
       'http://localhost:19006',
       'http://192.168.95.2:19006',
+      'http://192.168.43.138:4000',
+      'http://192.168.43.1:4000',
+      'http://192.168.95.2:4000/',
     ], // your frontend url.
   },
 }

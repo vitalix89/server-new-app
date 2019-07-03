@@ -1,0 +1,9 @@
+type Subscription {
+  newMessage: Message
+}
+
+type Message {
+  text: String
+  user: User
+  listingId: String
+}
